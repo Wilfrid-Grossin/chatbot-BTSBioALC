@@ -196,6 +196,21 @@ document.addEventListener("DOMContentLoaded", function() {
   for(let i=0;i<15;i++) createParticle();
   let interval = setInterval(createParticle, 300);
   setTimeout(()=> clearInterval(interval), 5000);
+
+  // SCROLL AUTOMATIQUE IFRAME
+  const iframe = document.getElementById("chatbot");
+  iframe.addEventListener("load", () => {
+    try {
+      function autoScroll() {
+        if(iframe.contentWindow){
+          iframe.contentWindow.scrollTo(0, iframe.contentWindow.document.body.scrollHeight);
+        }
+      }
+      setInterval(autoScroll, 500);
+    } catch(e){
+      console.log("Scroll automatique bloqué par CORS ou iframe externe");
+    }
+  });
 });
 </script>
 
