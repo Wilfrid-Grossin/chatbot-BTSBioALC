@@ -28,14 +28,15 @@ iframe {
 /* Étiquette au-dessus */
 .popup-label {
   position: fixed;
-  top: calc(50% - 190px); /* légèrement au-dessus du popup */
+  top: calc(50% - 200px);
   left:50%;
   transform: translateX(-50%);
   background: rgba(0,0,0,0.7);
   color:white;
-  padding:6px 12px;
+  padding:10px 18px;
   border-radius:12px;
-  font-size:14px;
+  font-size:20px;
+  font-weight:bold;
   z-index:10000;
   pointer-events:none;
 }
@@ -46,8 +47,8 @@ iframe {
   top:50%;
   left:50%;
   transform: translate(-50%, -50%);
-  width:300px;
-  height:300px;
+  width:350px;
+  height:350px;
   max-width:75%;
   max-height:75%;
   background:#c62828;
@@ -60,21 +61,34 @@ iframe {
   text-align:center;
   z-index:9999;
   box-shadow:0 12px 30px rgba(0,0,0,0.4);
-  animation: pulse 1s ease-in-out infinite;
+  animation: popupPulse 1.5s ease-in-out infinite;
   padding:20px;
 }
 
 .popup img {
-  width:120px;
-  height:120px;
+  width:160px;
+  height:160px;
   border-radius:50%;
   object-fit:cover;
-  margin-bottom:15px;
+  margin-bottom:20px;
+  animation: imgZoom 1.5s ease-in-out infinite alternate;
 }
 
-@keyframes pulse {
+.popup-text {
+  font-size:18px;
+  font-weight:bold;
+}
+
+/* Animation popup */
+@keyframes popupPulse {
   0%,100%{ transform:translate(-50%,-50%) scale(1); opacity:1; }
-  50%{ transform:translate(-50%,-50%) scale(1.05); opacity:0.9; }
+  50%{ transform:translate(-50%,-50%) scale(1.05); opacity:0.95; }
+}
+
+/* Animation image */
+@keyframes imgZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.08); }
 }
 
 .bubble, .icon {
@@ -82,6 +96,7 @@ iframe {
   z-index:9998;
   pointer-events:none;
   opacity:0.8;
+  user-select:none;
 }
 </style>
 </head>
@@ -97,7 +112,7 @@ iframe {
 <!-- Popup rond -->
 <div class="popup" id="popup">
   <img src="https://www.lycee-valin.fr/RJVALIN/wp-content/uploads/2026/03/image-3.png" alt="Chatbot">
-  Nouvel outil pour découvrir le BTS Bioanalyses en Laboratoire de Contrôle
+  <div class="popup-text">Nouvel outil pour découvrir le BTS Bioanalyses en Laboratoire de Contrôle</div>
 </div>
 
 <script>
@@ -105,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const popup = document.getElementById("popup");
   const label = document.getElementById("popupLabel");
 
-  // Disparition automatique après 5s
+  // Disparition automatique après 5 secondes
   setTimeout(()=> {
     popup.remove();
     label.remove();
@@ -113,15 +128,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const colors = ["#ff1744","#f50057","#ff9100","#00e676","#2979ff"];
   const icons = ["🧬","⚗️","🧪","🔬"];
-  const particleCount = 20;
-
-  for(let i=0;i<particleCount;i++){
+  
+  // Fonction pour générer une bulle ou icône autour du centre
+  function createParticle() {
     const elem = document.createElement("div");
     if(Math.random()<0.3){
       elem.className="icon";
       elem.textContent=icons[Math.floor(Math.random()*icons.length)];
       elem.style.fontSize=`${14+Math.random()*16}px`;
-    }else{
+    } else {
       elem.className="bubble";
       const size=8+Math.random()*15;
       elem.style.width=size+"px";
@@ -130,8 +145,9 @@ document.addEventListener("DOMContentLoaded", function() {
       elem.style.borderRadius="50%";
     }
 
+    // position aléatoire autour du centre de la page
     const angle=Math.random()*2*Math.PI;
-    const radius=160+Math.random()*80;
+    const radius=100+Math.random()*150;
     elem.style.left=`calc(50% + ${Math.cos(angle)*radius}px)`;
     elem.style.top=`calc(50% + ${Math.sin(angle)*radius}px)`;
     document.body.appendChild(elem);
@@ -140,10 +156,16 @@ document.addEventListener("DOMContentLoaded", function() {
     elem.animate([
       { transform:"translateY(0) scale(1)", opacity:1 },
       { transform:`translateY(-${20+Math.random()*50}px) scale(0.5)`, opacity:0 }
-    ],{duration:duration, iterations:1, easing:"ease-out"});
+    ], {duration:duration, iterations:1, easing:"ease-out"});
 
     setTimeout(()=> elem.remove(), duration);
   }
+
+  // Génération initiale autour du popup
+  for(let i=0;i<20;i++) createParticle();
+
+  // Génération continue toutes les 300ms pour effet “fête scientifique”
+  setInterval(createParticle, 300);
 });
 </script>
 
