@@ -2,28 +2,122 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chatbot BTS BioALC</title>
 <style>
-body{margin:0;font-family:Arial;background:#f5f5f5;}
-header{background:#c62828;color:white;padding:15px;text-align:center;font-size:22px;font-weight:bold;}
-.sub{text-align:center;padding:10px;font-size:16px;}
-.chat-container{width:100%;height:80vh;}
-iframe{width:100%;height:100%;border:none;}
-.fullscreen{display:block;margin:10px auto;padding:10px 20px;background:#c62828;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;}
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f5f5;
+    overflow-x: hidden;
+  }
+  .chat-container {
+    width: 100%;
+    height: 100%;
+  }
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* ---------- Popup festif ---------- */
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #c62828;
+    color: white;
+    padding: 18px 24px;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 9999;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    animation: popupEntrance 0.5s ease-out;
+  }
+
+  .popup img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  /* Bulles festives */
+  .bubble {
+    position: fixed;
+    border-radius: 50%;
+    opacity: 0.8;
+    z-index: 9998;
+    pointer-events: none;
+  }
+
+  @keyframes popupEntrance {
+    0% { transform: translate(-50%, -60%) scale(0.5); opacity: 0; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  }
 </style>
 </head>
 <body>
-<header>Chatbot BTS BioALC</header>
-<div class="sub">Posez vos questions sur la formation</div>
-<button class="fullscreen" onclick="openFull()">Ouvrir en plein écran</button>
+
 <div class="chat-container">
-<iframe id="chatbot" src="https://chatmd.forge.apps.education.fr//#https://codimd.apps.education.fr/s/0wMcu4T8P"></iframe>
+  <iframe src="https://chatmd.forge.apps.education.fr//#https://codimd.apps.education.fr/s/0wMcu4T8P" id="chatbot"></iframe>
 </div>
+
+<!-- Popup festif -->
+<div class="popup" id="popup">
+  <img src="https://www.lycee-valin.fr/RJVALIN/wp-content/uploads/2026/03/image-3.png" alt="Chatbot">
+  BTS BioALC
+</div>
+
 <script>
-function openFull(){
-  window.open("https://chatmd.forge.apps.education.fr//#https://codimd.apps.education.fr/s/0wMcu4T8P","_blank");
-}
+// ---------- Gestion du popup ----------
+document.addEventListener("DOMContentLoaded", function() {
+  const popup = document.getElementById("popup");
+
+  // Disparition automatique après 5s
+  setTimeout(() => {
+    popup.remove();
+  }, 5000);
+
+  // ---------- Bulles festives ----------
+  const colors = ["#ff1744","#f50057","#ff9100","#00e676","#2979ff"];
+  const bubbleCount = 20;
+
+  for (let i=0; i<bubbleCount; i++) {
+    const b = document.createElement("div");
+    b.className = "bubble";
+    const size = Math.random()*15 + 10; // 10-25px
+    b.style.width = size + "px";
+    b.style.height = size + "px";
+    b.style.background = colors[Math.floor(Math.random()*colors.length)];
+    // Position autour du popup
+    const angle = Math.random() * 2 * Math.PI;
+    const radius = 100 + Math.random()*50; // distance depuis centre
+    b.style.left = `calc(50% + ${Math.cos(angle)*radius}px)`;
+    b.style.top = `calc(50% + ${Math.sin(angle)*radius}px)`;
+    document.body.appendChild(b);
+
+    // Animation montée et disparition
+    const duration = 3000 + Math.random()*2000;
+    b.animate([
+      { transform: "translateY(0) scale(1)", opacity: 1 },
+      { transform: `translateY(-${50 + Math.random()*50}px) scale(0.5)`, opacity: 0 }
+    ], { duration: duration, iterations: 1, easing: "ease-out" });
+
+    setTimeout(() => b.remove(), duration);
+  }
+});
 </script>
+
 </body>
 </html>
