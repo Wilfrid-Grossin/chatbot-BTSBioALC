@@ -11,21 +11,27 @@ html, body {
   height:100%;
   font-family:Arial, Helvetica, sans-serif;
   background:#f5f5f5;
-  overflow-x:hidden;
+  overflow:hidden;
 }
 
-.chat-container {
+.chat-wrapper {
   width:100%;
   height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  overflow-y:auto; /* scroll vertical si besoin */
 }
 
 iframe {
   width:100%;
+  max-width:900px; /* limite sur grand écran */
   height:100%;
   border:none;
+  flex-shrink:0;
 }
 
-/* Étiquette au-dessus */
+/* Popup label */
 .popup-label {
   position: fixed;
   top: calc(50% - 180px);
@@ -38,7 +44,7 @@ iframe {
   font-weight:bold;
   z-index:10000;
   pointer-events:none;
-  white-space: nowrap; /* texte sur une ligne */
+  white-space: nowrap;
 }
 
 /* Popup rond clignotant */
@@ -73,18 +79,18 @@ iframe {
   line-height:1.2;
 }
 
-/* Animation popup */
+/* Animations */
 @keyframes popupPulse {
   0%,100%{ transform:translate(-50%,-50%) scale(1); opacity:1; }
   50%{ transform:translate(-50%,-50%) scale(1.05); opacity:0.95; }
 }
 
-/* Animation image */
 @keyframes imgZoom {
   0% { transform: scale(1); }
   100% { transform: scale(1.08); }
 }
 
+/* Bulles et icônes */
 .bubble, .icon {
   position: fixed;
   z-index:9998;
@@ -93,49 +99,25 @@ iframe {
   user-select:none;
 }
 
-/* Ajustements PC / mobile */
+/* Responsive */
 @media (max-width: 768px) {
-  .popup {
-    width:75vw;
-    height:75vw;
-  }
-  .popup img {
-    width:45%;
-    height:45%;
-  }
-  .popup-text {
-    font-size:18px;
-  }
-  .popup-label {
-    font-size:18px;
-    top: calc(50% - 200px);
-    white-space: nowrap; /* texte sur une ligne */
-    padding:8px 15px;
-  }
+  .popup { width:75vw; height:75vw; }
+  .popup img { width:45%; height:45%; }
+  .popup-text { font-size:18px; }
+  .popup-label { font-size:18px; top: calc(50% - 200px); white-space: nowrap; padding:8px 15px; }
 }
 
 @media (min-width: 769px) {
-  .popup {
-    width:300px;
-    height:300px;
-  }
-  .popup img {
-    width:140px;
-    height:140px;
-  }
-  .popup-text {
-    font-size:16px;
-  }
-  .popup-label {
-    font-size:16px;
-    top: calc(50% - 180px);
-  }
+  .popup { width:300px; height:300px; }
+  .popup img { width:140px; height:140px; }
+  .popup-text { font-size:16px; }
+  .popup-label { font-size:16px; top: calc(50% - 180px); }
 }
 </style>
 </head>
 <body>
 
-<div class="chat-container">
+<div class="chat-wrapper">
   <iframe src="https://chatmd.forge.apps.education.fr//#https://codimd.apps.education.fr/s/0wMcu4T8P" id="chatbot"></iframe>
 </div>
 
@@ -152,10 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const label = document.getElementById("popupLabel");
 
   // Disparition automatique après 5 secondes
-  setTimeout(()=> {
-    popup.remove();
-    label.remove();
-  }, 5000);
+  setTimeout(()=> { popup.remove(); label.remove(); }, 5000);
 
   const colors = ["#ff1744","#f50057","#ff9100","#00e676","#2979ff"];
   const icons = ["🧬","⚗️","🧪","🔬"];
@@ -176,7 +155,6 @@ document.addEventListener("DOMContentLoaded", function() {
       elem.style.borderRadius="50%";
     }
 
-    // position aléatoire autour du centre
     const angle=Math.random()*2*Math.PI;
     const radius=100+Math.random()*120;
     elem.style.left=`calc(50% + ${Math.cos(angle)*radius}px)`;
@@ -197,20 +175,9 @@ document.addEventListener("DOMContentLoaded", function() {
   let interval = setInterval(createParticle, 300);
   setTimeout(()=> clearInterval(interval), 5000);
 
-  // SCROLL AUTOMATIQUE IFRAME
-  const iframe = document.getElementById("chatbot");
-  iframe.addEventListener("load", () => {
-    try {
-      function autoScroll() {
-        if(iframe.contentWindow){
-          iframe.contentWindow.scrollTo(0, iframe.contentWindow.document.body.scrollHeight);
-        }
-      }
-      setInterval(autoScroll, 500);
-    } catch(e){
-      console.log("Scroll automatique bloqué par CORS ou iframe externe");
-    }
-  });
+  // Sur PC et mobile : le conteneur scrollable
+  const wrapper = document.querySelector(".chat-wrapper");
+  wrapper.scrollTop = wrapper.scrollHeight; // initial scroll en bas
 });
 </script>
 
