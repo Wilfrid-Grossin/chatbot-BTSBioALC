@@ -28,14 +28,13 @@ iframe {
 /* Étiquette au-dessus */
 .popup-label {
   position: fixed;
-  top: calc(50% - 200px);
+  top: calc(50% - 180px);
   left:50%;
   transform: translateX(-50%);
   background: rgba(0,0,0,0.7);
   color:white;
   padding:10px 18px;
   border-radius:12px;
-  font-size:20px;
   font-weight:bold;
   z-index:10000;
   pointer-events:none;
@@ -47,10 +46,6 @@ iframe {
   top:50%;
   left:50%;
   transform: translate(-50%, -50%);
-  width:350px;
-  height:350px;
-  max-width:75%;
-  max-height:75%;
   background:#c62828;
   color:white;
   border-radius:50%;
@@ -62,21 +57,19 @@ iframe {
   z-index:9999;
   box-shadow:0 12px 30px rgba(0,0,0,0.4);
   animation: popupPulse 1.5s ease-in-out infinite;
-  padding:20px;
+  padding:15px;
 }
 
 .popup img {
-  width:160px;
-  height:160px;
   border-radius:50%;
   object-fit:cover;
-  margin-bottom:20px;
+  margin-bottom:15px;
   animation: imgZoom 1.5s ease-in-out infinite alternate;
 }
 
 .popup-text {
-  font-size:18px;
   font-weight:bold;
+  line-height:1.2;
 }
 
 /* Animation popup */
@@ -98,6 +91,43 @@ iframe {
   opacity:0.8;
   user-select:none;
 }
+
+/* Ajustements PC / mobile */
+@media (max-width: 768px) {
+  .popup {
+    width:75vw;
+    height:75vw;
+  }
+  .popup img {
+    width:45%;
+    height:45%;
+  }
+  .popup-text {
+    font-size:18px;
+  }
+  .popup-label {
+    font-size:18px;
+    top: calc(50% - 200px);
+  }
+}
+
+@media (min-width: 769px) {
+  .popup {
+    width:300px;
+    height:300px;
+  }
+  .popup img {
+    width:140px;
+    height:140px;
+  }
+  .popup-text {
+    font-size:16px;
+  }
+  .popup-label {
+    font-size:16px;
+    top: calc(50% - 180px);
+  }
+}
 </style>
 </head>
 <body>
@@ -106,10 +136,8 @@ iframe {
   <iframe src="https://chatmd.forge.apps.education.fr//#https://codimd.apps.education.fr/s/0wMcu4T8P" id="chatbot"></iframe>
 </div>
 
-<!-- Étiquette -->
 <div class="popup-label" id="popupLabel">Popup de 5 secondes</div>
 
-<!-- Popup rond -->
 <div class="popup" id="popup">
   <img src="https://www.lycee-valin.fr/RJVALIN/wp-content/uploads/2026/03/image-3.png" alt="Chatbot">
   <div class="popup-text">Nouvel outil pour découvrir le BTS Bioanalyses en Laboratoire de Contrôle</div>
@@ -120,7 +148,6 @@ document.addEventListener("DOMContentLoaded", function() {
   const popup = document.getElementById("popup");
   const label = document.getElementById("popupLabel");
 
-  // Disparition automatique après 5 secondes
   setTimeout(()=> {
     popup.remove();
     label.remove();
@@ -128,8 +155,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const colors = ["#ff1744","#f50057","#ff9100","#00e676","#2979ff"];
   const icons = ["🧬","⚗️","🧪","🔬"];
-  
-  // Fonction pour générer une bulle ou icône autour du centre
+  let particles = [];
+
   function createParticle() {
     const elem = document.createElement("div");
     if(Math.random()<0.3){
@@ -138,21 +165,21 @@ document.addEventListener("DOMContentLoaded", function() {
       elem.style.fontSize=`${14+Math.random()*16}px`;
     } else {
       elem.className="bubble";
-      const size=8+Math.random()*15;
+      const size=8+Math.random()*12;
       elem.style.width=size+"px";
       elem.style.height=size+"px";
       elem.style.background=colors[Math.floor(Math.random()*colors.length)];
       elem.style.borderRadius="50%";
     }
 
-    // position aléatoire autour du centre de la page
     const angle=Math.random()*2*Math.PI;
-    const radius=100+Math.random()*150;
+    const radius=100+Math.random()*120;
     elem.style.left=`calc(50% + ${Math.cos(angle)*radius}px)`;
     elem.style.top=`calc(50% + ${Math.sin(angle)*radius}px)`;
     document.body.appendChild(elem);
+    particles.push(elem);
 
-    const duration=3000+Math.random()*2000;
+    const duration=2500+Math.random()*1500;
     elem.animate([
       { transform:"translateY(0) scale(1)", opacity:1 },
       { transform:`translateY(-${20+Math.random()*50}px) scale(0.5)`, opacity:0 }
@@ -161,11 +188,9 @@ document.addEventListener("DOMContentLoaded", function() {
     setTimeout(()=> elem.remove(), duration);
   }
 
-  // Génération initiale autour du popup
-  for(let i=0;i<20;i++) createParticle();
-
-  // Génération continue toutes les 300ms pour effet “fête scientifique”
-  setInterval(createParticle, 300);
+  for(let i=0;i<15;i++) createParticle();
+  let interval = setInterval(createParticle, 300);
+  setTimeout(()=> clearInterval(interval), 5000);
 });
 </script>
 
