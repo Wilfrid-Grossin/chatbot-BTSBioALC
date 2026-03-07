@@ -9,8 +9,6 @@
     margin: 0;
     padding: 0;
     height: 100%;
-  }
-  body {
     font-family: Arial, Helvetica, sans-serif;
     background: #f5f5f5;
     overflow-x: hidden;
@@ -31,25 +29,33 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 75%;
+    max-width: 600px;
     background: #c62828;
     color: white;
-    padding: 18px 24px;
+    padding: 24px 30px;
     border-radius: 16px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 15px;
     z-index: 9999;
     box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    text-align: center;
     animation: popupEntrance 0.5s ease-out;
   }
 
   .popup img {
-    width: 70px;
-    height: 70px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     object-fit: cover;
+  }
+
+  .popup-text {
+    font-size: 18px;
   }
 
   /* Bulles festives */
@@ -76,7 +82,9 @@
 <!-- Popup festif -->
 <div class="popup" id="popup">
   <img src="https://www.lycee-valin.fr/RJVALIN/wp-content/uploads/2026/03/image-3.png" alt="Chatbot">
-  BTS BioALC
+  <div class="popup-text">
+    Nouvel outil pour découvrir le BTS Bioanalyses en Laboratoire de Contrôle
+  </div>
 </div>
 
 <script>
@@ -96,13 +104,14 @@ document.addEventListener("DOMContentLoaded", function() {
   for (let i=0; i<bubbleCount; i++) {
     const b = document.createElement("div");
     b.className = "bubble";
-    const size = Math.random()*15 + 10; // 10-25px
+    const size = Math.random()*20 + 10; // 10-30px
     b.style.width = size + "px";
     b.style.height = size + "px";
     b.style.background = colors[Math.floor(Math.random()*colors.length)];
-    // Position autour du popup
+
+    // Position autour du popup (périphérie)
     const angle = Math.random() * 2 * Math.PI;
-    const radius = 100 + Math.random()*50; // distance depuis centre
+    const radius = 150 + Math.random()*50; // distance depuis centre
     b.style.left = `calc(50% + ${Math.cos(angle)*radius}px)`;
     b.style.top = `calc(50% + ${Math.sin(angle)*radius}px)`;
     document.body.appendChild(b);
