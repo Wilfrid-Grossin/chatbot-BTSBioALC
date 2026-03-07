@@ -25,39 +25,34 @@ iframe {
   border:none;
 }
 
-/* Popup festif */
+/* Popup rond clignotant */
 .popup {
   position: fixed;
   top:50%;
   left:50%;
   transform: translate(-50%, -50%);
-  width:75%;
-  max-width:650px;
+  width:300px;
+  height:300px;
+  max-width:75%;
+  max-height:75%;
   background:#c62828;
   color:white;
-  padding:30px;
-  border-radius:18px;
-  font-size:22px;
-  font-weight:bold;
+  border-radius:50%;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:20px;
+  justify-content:center;
+  font-size:20px;
+  font-weight:bold;
+  text-align:center;
   z-index:9999;
   box-shadow:0 12px 30px rgba(0,0,0,0.4);
-  text-align:center;
-  animation: popupEntrance 0.5s ease-out;
+  animation: pulse 1s ease-in-out infinite;
 }
 
-.popup img {
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  object-fit:cover;
-}
-
-.popup-text {
-  font-size:20px;
+@keyframes pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity:1; }
+  50% { transform: translate(-50%, -50%) scale(1.05); opacity:0.9; }
 }
 
 /* Bulles et icônes */
@@ -67,11 +62,6 @@ iframe {
   pointer-events: none;
   opacity: 0.8;
 }
-
-@keyframes popupEntrance {
-  0% { transform: translate(-50%, -60%) scale(0.5); opacity:0; }
-  100% { transform: translate(-50%, -50%) scale(1); opacity:1; }
-}
 </style>
 </head>
 <body>
@@ -80,12 +70,9 @@ iframe {
   <iframe src="https://chatmd.forge.apps.education.fr//#https://codimd.apps.education.fr/s/0wMcu4T8P" id="chatbot"></iframe>
 </div>
 
-<!-- Popup festif -->
+<!-- Popup rond -->
 <div class="popup" id="popup">
-  <img src="https://www.lycee-valin.fr/RJVALIN/wp-content/uploads/2026/03/image-3.png" alt="Chatbot">
-  <div class="popup-text">
-    Nouvel outil pour découvrir le BTS Bioanalyses en Laboratoire de Contrôle
-  </div>
+  Nouvel outil pour découvrir le BTS Bioanalyses en Laboratoire de Contrôle
 </div>
 
 <script>
@@ -97,21 +84,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // ---------- Bulles et icônes ----------
   const colors = ["#ff1744","#f50057","#ff9100","#00e676","#2979ff"];
-  const icons = [
-    "🧬","⚗️","🧪","🔬" // ADN, Erlenmeyer, pipette, microscope
-  ];
-  const particleCount = 25;
+  const icons = ["🧬","⚗️","🧪","🔬"]; // ADN, Erlenmeyer, pipette, microscope
+  const particleCount = 20;
 
   for(let i=0;i<particleCount;i++){
     const elem = document.createElement("div");
-    const isIcon = Math.random()<0.3; // 30% icônes, 70% bulles
+    const isIcon = Math.random()<0.3;
     if(isIcon){
       elem.className="icon";
       elem.textContent = icons[Math.floor(Math.random()*icons.length)];
-      elem.style.fontSize = `${12 + Math.random()*18}px`;
+      elem.style.fontSize = `${14 + Math.random()*16}px`;
     } else {
       elem.className="bubble";
-      const size = 10 + Math.random()*20;
+      const size = 8 + Math.random()*15;
       elem.style.width = size + "px";
       elem.style.height = size + "px";
       elem.style.background = colors[Math.floor(Math.random()*colors.length)];
@@ -120,17 +105,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Position périphérie popup
     const angle = Math.random()*2*Math.PI;
-    const radius = 180 + Math.random()*80;
+    const radius = 160 + Math.random()*80;
     elem.style.left = `calc(50% + ${Math.cos(angle)*radius}px)`;
     elem.style.top = `calc(50% + ${Math.sin(angle)*radius}px)`;
 
     document.body.appendChild(elem);
 
     // Animation "montée + disparition"
-    const duration = 3500 + Math.random()*2000;
+    const duration = 3000 + Math.random()*2000;
     elem.animate([
       { transform:"translateY(0) scale(1)", opacity:1 },
-      { transform:`translateY(-${50+Math.random()*50}px) scale(0.5)`, opacity:0 }
+      { transform:`translateY(-${20+Math.random()*50}px) scale(0.5)`, opacity:0 }
     ], {duration:duration, iterations:1, easing:"ease-out"});
 
     setTimeout(()=> elem.remove(), duration);
