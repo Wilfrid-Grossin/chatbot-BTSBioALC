@@ -20,12 +20,12 @@ html, body {
   display:flex;
   justify-content:center;
   align-items:flex-start;
-  overflow-y:auto; /* scroll vertical si besoin */
+  overflow-y:auto;
 }
 
 iframe {
   width:100%;
-  max-width:900px; /* limite sur grand écran */
+  max-width:900px;
   height:100%;
   border:none;
   flex-shrink:0;
@@ -45,6 +45,7 @@ iframe {
   z-index:10000;
   pointer-events:none;
   white-space: nowrap;
+  text-align:center;
 }
 
 /* Popup rond clignotant */
@@ -64,7 +65,7 @@ iframe {
   z-index:9999;
   box-shadow:0 12px 30px rgba(0,0,0,0.4);
   animation: popupPulse 1.5s ease-in-out infinite;
-  padding:15px;
+  padding:20px;
 }
 
 .popup img {
@@ -77,17 +78,18 @@ iframe {
 .popup-text {
   font-weight:bold;
   line-height:1.2;
+  text-align:center;
 }
 
 /* Animations */
 @keyframes popupPulse {
   0%,100%{ transform:translate(-50%,-50%) scale(1); opacity:1; }
-  50%{ transform:translate(-50%,-50%) scale(1.05); opacity:0.95; }
+  50%{ transform:translate(-50%,-50%) scale(1.08); opacity:0.95; }
 }
 
 @keyframes imgZoom {
   0% { transform: scale(1); }
-  100% { transform: scale(1.08); }
+  100% { transform: scale(1.1); }
 }
 
 /* Bulles et icônes */
@@ -108,9 +110,9 @@ iframe {
 }
 
 @media (min-width: 769px) {
-  .popup { width:300px; height:300px; }
-  .popup img { width:140px; height:140px; }
-  .popup-text { font-size:16px; }
+  .popup { width:320px; height:320px; }
+  .popup img { width:160px; height:160px; }
+  .popup-text { font-size:18px; }
   .popup-label { font-size:16px; top: calc(50% - 180px); }
 }
 </style>
@@ -129,12 +131,23 @@ iframe {
 </div>
 
 <script>
+// Cookie functions
+function setCookie(name, value, days) {
+  const d = new Date();
+  d.setTime(d.getTime() + (days*24*60*60*1000));
+  document.cookie = name + "=" + value + ";expires=" + d.toUTCString() + ";path=/";
+}
+
+function getCookie(name) {
+  const v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+  return v ? v[2] : null;
+}
+
 document.addEventListener("DOMContentLoaded", function() {
+  if(getCookie("popupSeen") === "1") return; // déjà vu
+
   const popup = document.getElementById("popup");
   const label = document.getElementById("popupLabel");
-
-  // Disparition automatique après 5 secondes
-  setTimeout(()=> { popup.remove(); label.remove(); }, 5000);
 
   const colors = ["#ff1744","#f50057","#ff9100","#00e676","#2979ff"];
   const icons = ["🧬","⚗️","🧪","🔬"];
@@ -148,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function() {
       elem.style.fontSize=`${14+Math.random()*16}px`;
     } else {
       elem.className="bubble";
-      const size=8+Math.random()*12;
+      const size=10+Math.random()*15;
       elem.style.width=size+"px";
       elem.style.height=size+"px";
       elem.style.background=colors[Math.floor(Math.random()*colors.length)];
@@ -156,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     const angle=Math.random()*2*Math.PI;
-    const radius=100+Math.random()*120;
+    const radius=120+Math.random()*100;
     elem.style.left=`calc(50% + ${Math.cos(angle)*radius}px)`;
     elem.style.top=`calc(50% + ${Math.sin(angle)*radius}px)`;
     document.body.appendChild(elem);
@@ -165,19 +178,26 @@ document.addEventListener("DOMContentLoaded", function() {
     const duration=2500+Math.random()*1500;
     elem.animate([
       { transform:"translateY(0) scale(1)", opacity:1 },
-      { transform:`translateY(-${20+Math.random()*50}px) scale(0.5)`, opacity:0 }
+      { transform:`translateY(-${30+Math.random()*60}px) scale(0.5)`, opacity:0 }
     ], {duration:duration, iterations:1, easing:"ease-out"});
 
     setTimeout(()=> elem.remove(), duration);
   }
 
-  for(let i=0;i<15;i++) createParticle();
-  let interval = setInterval(createParticle, 300);
-  setTimeout(()=> clearInterval(interval), 5000);
+  for(let i=0;i<20;i++) createParticle();
+  let interval = setInterval(createParticle, 250);
 
-  // Sur PC et mobile : le conteneur scrollable
+  // Disparition popup + cookie après 5 sec
+  setTimeout(()=> {
+    clearInterval(interval);
+    popup.remove();
+    label.remove();
+    setCookie("popupSeen","1",30);
+  }, 5000);
+
+  // Auto-scroll iframe
   const wrapper = document.querySelector(".chat-wrapper");
-  wrapper.scrollTop = wrapper.scrollHeight; // initial scroll en bas
+  wrapper.scrollTop = wrapper.scrollHeight;
 });
 </script>
 
