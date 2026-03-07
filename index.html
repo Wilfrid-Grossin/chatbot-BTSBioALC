@@ -25,6 +25,21 @@ iframe {
   border:none;
 }
 
+/* Étiquette au-dessus */
+.popup-label {
+  position: fixed;
+  top: calc(50% - 190px); /* légèrement au-dessus du popup */
+  left:50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.7);
+  color:white;
+  padding:6px 12px;
+  border-radius:12px;
+  font-size:14px;
+  z-index:10000;
+  pointer-events:none;
+}
+
 /* Popup rond clignotant */
 .popup {
   position: fixed;
@@ -76,6 +91,10 @@ iframe {
   <iframe src="https://chatmd.forge.apps.education.fr//#https://codimd.apps.education.fr/s/0wMcu4T8P" id="chatbot"></iframe>
 </div>
 
+<!-- Étiquette -->
+<div class="popup-label" id="popupLabel">Popup de 5 secondes</div>
+
+<!-- Popup rond -->
 <div class="popup" id="popup">
   <img src="https://www.lycee-valin.fr/RJVALIN/wp-content/uploads/2026/03/image-3.png" alt="Chatbot">
   Nouvel outil pour découvrir le BTS Bioanalyses en Laboratoire de Contrôle
@@ -84,7 +103,13 @@ iframe {
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   const popup = document.getElementById("popup");
-  setTimeout(()=> popup.remove(), 5000);
+  const label = document.getElementById("popupLabel");
+
+  // Disparition automatique après 5s
+  setTimeout(()=> {
+    popup.remove();
+    label.remove();
+  }, 5000);
 
   const colors = ["#ff1744","#f50057","#ff9100","#00e676","#2979ff"];
   const icons = ["🧬","⚗️","🧪","🔬"];
