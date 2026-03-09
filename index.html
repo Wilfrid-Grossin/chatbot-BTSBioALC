@@ -119,26 +119,31 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
-<!-- Footer minimaliste avec compteur -->
-<footer style="background:#222; color:white; padding:8px 12px; font-size:12px; display:flex; justify-content:space-between; align-items:center;">
+<div id="visitorCounter">
+  👀<br>
+  <img src="https://visitor-badge.laobi.icu/badge?page_id=wilfrid-grossin.chatbot-BTSBioALC&left_text=&right_text=&color=red">
+</div>
 
-  <!-- Compteur à gauche -->
-  <div>
-    👀 Visiteurs :
-    <img 
-      src="https://visitor-badge.laobi.icu/badge?page_id=wilfrid-grossin.chatbot-BTSBioALC&left_text=&right_text=&color=blue" 
-      alt="Compteur de visiteurs">
-  </div>
-
-  <!-- Texte à droite -->
-  <div>
-    Site pédagogique – © 2026
-  </div>
-
-</footer>
+<style>
+#visitorCounter{
+  position:fixed;
+  left:6px;
+  bottom:50%;
+  transform:translateY(50%) rotate(-90deg);
+  transform-origin:left bottom;
+  background:rgba(0,0,0,0.6);
+  padding:4px 8px;
+  border-radius:6px;
+  z-index:9999;
+}
+#visitorCounter img{
+  height:18px;
+}
+</style>
 
 </body>
 </html>
+
 
 
 
