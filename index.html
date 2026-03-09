@@ -5,146 +5,82 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chatbot BTS BioALC</title>
 <style>
-html, body { margin:0; padding:0; height:100%; font-family:Arial, Helvetica, sans-serif; background:#f5f5f5; overflow-x:hidden; }
-.chat-container { width:100%; height:100%; }
-iframe { width:100%; height:100%; border:none; }
-.popup-label { position: fixed; top: calc(50% - 180px); left:50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color:white; padding:10px 18px; border-radius:12px; font-weight:bold; z-index:10000; pointer-events:none; white-space: nowrap; }
-.popup { position: fixed; top:50%; left:50%; transform: translate(-50%, -50%); background:#c62828; color:white; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; z-index:9999; box-shadow:0 12px 30px rgba(0,0,0,0.4); animation: popupPulse 1.5s ease-in-out infinite; padding:15px; }
-.popup img { border-radius:50%; object-fit:cover; margin-bottom:15px; animation: imgZoom 1.5s ease-in-out infinite alternate; }
-.popup-text { font-weight:bold; line-height:1.2; }
-@keyframes popupPulse { 0%,100%{ transform:translate(-50%,-50%) scale(1); opacity:1; } 50%{ transform:translate(-50%,-50%) scale(1.05); opacity:0.95; } }
-@keyframes imgZoom { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
-.bubble, .icon { position: fixed; z-index:9998; pointer-events:none; opacity:0.8; user-select:none; }
-@media (max-width: 768px) {
-  .popup { width:75vw; height:75vw; }
-  .popup img { width:45%; height:45%; }
-  .popup-text { font-size:18px; }
-  .popup-label { font-size:18px; top: calc(50% - 200px); white-space: nowrap; padding:8px 15px; }
+html, body {
+  margin:0;
+  padding:0;
+  height:100%;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#f5f5f5;
+  overflow:hidden; /* plus de double ascenseur */
 }
-@media (min-width: 769px) {
-  .popup { width:300px; height:300px; }
-  .popup img { width:140px; height:140px; }
-  .popup-text { font-size:16px; }
-  .popup-label { font-size:16px; top: calc(50% - 180px); }
+
+.chat-wrapper {
+  position:relative;
+  width:100%;
+  height:100%;
+}
+
+/* iframe chatbot */
+.chat-wrapper iframe {
+  width:100%;
+  height:100%;
+  border:none;
+}
+
+/* popup existante */
+.popup {
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  background:#c62828;
+  color:white;
+  border-radius:50%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  z-index:9999;
+  box-shadow:0 12px 30px rgba(0,0,0,0.4);
+  padding:15px;
+}
+.popup img { width:140px; height:140px; border-radius:50%; }
+
+/* badge compteur intégré (au-dessus du bouton envoyer) */
+#visitorBadge {
+  position:absolute;
+  bottom:80px; /* ajustable selon le bouton */
+  right:20px;  /* ajustable */
+  background:rgba(255,255,255,0.9);
+  padding:4px 8px;
+  border-radius:12px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.25);
+  z-index:9999;
+}
+#visitorBadge img {
+  height:18px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="chat-container">
-  <iframe src="https://chatmd.forge.apps.education.fr//#https://codimd.apps.education.fr/s/0wMcu4T8P" id="chatbot"></iframe>
+<div class="chat-wrapper">
+  <!-- iframe du chatbot -->
+  <iframe src="https://chatmd.forge.apps.education.fr//#https://codimd.apps.education.fr/s/0wMcu4T8P"></iframe>
+
+  <!-- compteur intégré au chat -->
+  <div id="visitorBadge">
+    <img src="https://visitor-badge.laobi.icu/badge?page_id=wilfrid-grossin.chatbot-BTSBioALC&left_text=&right_text=" alt="visites">
+  </div>
+
+  <!-- popup (existant) -->
+  <div class="popup">
+    <img src="https://www.lycee-valin.fr/RJVALIN/wp-content/uploads/2026/03/image-3.png" alt="Chatbot">
+    <div class="popup-text">Nouvel outil pour découvrir le BTS Bioanalyses en Laboratoire de Contrôle</div>
+  </div>
 </div>
-
-<div class="popup-label" id="popupLabel">Popup de 5 secondes</div>
-
-<div class="popup" id="popup">
-  <img src="https://www.lycee-valin.fr/RJVALIN/wp-content/uploads/2026/03/image-3.png" alt="Chatbot">
-  <div class="popup-text">Nouvel outil pour découvrir le BTS Bioanalyses en Laboratoire de Contrôle</div>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const popup = document.getElementById("popup");
-  const label = document.getElementById("popupLabel");
-
-  function setCookie(name, value, days) {
-    const d = new Date();
-    d.setTime(d.getTime() + (days*24*60*60*1000));
-    document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/`;
-  }
-
-  function getCookie(name) {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    return match ? match[2] : null;
-  }
-
-  const probability = 0.3;
-  const minDays = 2;
-  const lastSeen = getCookie("popup_last");
-  const now = Date.now();
-
-  let showPopup = false;
-
-  if (!lastSeen) {
-    showPopup = true;
-  } else if (now - lastSeen > minDays*24*60*60*1000) {
-    showPopup = Math.random() < probability;
-  }
-
-  if (showPopup) {
-    popup.style.display = "flex";
-    label.style.display = "block";
-
-    setTimeout(() => { popup.remove(); label.remove(); }, 5000);
-
-    const colors = ["#ff1744","#f50057","#ff9100","#00e676","#2979ff"];
-    const icons = ["🧬","⚗️","🧪","🔬"];
-
-    function createParticle() {
-      const elem = document.createElement("div");
-      if(Math.random()<0.3){
-        elem.className="icon";
-        elem.textContent=icons[Math.floor(Math.random()*icons.length)];
-        elem.style.fontSize=`${14+Math.random()*16}px`;
-      } else {
-        elem.className="bubble";
-        const size=8+Math.random()*12;
-        elem.style.width=size+"px";
-        elem.style.height=size+"px";
-        elem.style.background=colors[Math.floor(Math.random()*colors.length)];
-        elem.style.borderRadius="50%";
-      }
-
-      const angle=Math.random()*2*Math.PI;
-      const radius=100+Math.random()*120;
-      elem.style.left=`calc(50% + ${Math.cos(angle)*radius}px)`;
-      elem.style.top=`calc(50% + ${Math.sin(angle)*radius}px)`;
-      document.body.appendChild(elem);
-
-      const duration=2500+Math.random()*1500;
-      elem.animate([{ transform:"translateY(0) scale(1)", opacity:1 }, { transform:`translateY(-${20+Math.random()*50}px) scale(0.5)`, opacity:0 }], {duration:duration, iterations:1, easing:"ease-out"});
-      setTimeout(()=> elem.remove(), duration);
-    }
-
-    for(let i=0;i<15;i++) createParticle();
-    let interval = setInterval(createParticle, 300);
-    setTimeout(()=> clearInterval(interval), 5000);
-
-    setCookie("popup_last", now, 30);
-  } else {
-    popup.style.display = "none";
-    label.style.display = "none";
-  }
-});
-</script>
-
-<div id="visitorCounter">
-  <img src="https://visitor-badge.laobi.icu/badge?page_id=wilfrid-grossin.chatbot-BTSBioALC&left_text=&right_text=&color=red" alt="visites">
-</div>
-
-<style>
-#visitorCounter{
-  position:fixed;
-  top:6px;
-  left:6px;
-  background:rgba(0,0,0,0.55);
-  padding:4px 6px;
-  border-radius:6px;
-  z-index:9999;
-}
-
-#visitorCounter img{
-  height:18px;
-  display:block;
-}
-</style>
 
 </body>
 </html>
-
-
-
-
-
-
