@@ -120,20 +120,34 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 
 <!-- Footer minimaliste avec compteur -->
-<footer style="background:#222; color:white; padding:8px; text-align:center; font-size:12px;">
+<footer style="background:#222; color:white; padding:8px 12px; font-size:12px; display:flex; justify-content:space-between; align-items:center;">
 
-  <span>👀 Visiteurs : </span><span id="compteur">2156</span>
+  <!-- Compteur à gauche -->
+  <div>
+    👀 Visiteurs : <span id="compteur">2156</span>
+  </div>
+
+  <!-- Texte à droite -->
+  <div>
+    Site pédagogique – © 2026
+  </div>
 
 </footer>
 
 <script>
-fetch("https://api.countapi.xyz/hit/wilfrid-grossin/chatbot-BTSBioALC")
-  .then(response => response.json())
-  .then(data => {
-    document.getElementById("compteur").innerText = data.value + 2156;
-  });
+  // Compteur CountAPI
+  fetch("https://api.countapi.xyz/hit/wilfrid-grossin/chatbot-BTSBioALC")
+    .then(response => response.json())
+    .then(data => {
+      // On démarre à 2156 et ajoute la valeur réelle
+      document.getElementById("compteur").innerText = 2156 + data.value;
+    })
+    .catch(err => {
+      console.log("Erreur compteur :", err);
+    });
 </script>
 
 </body>
 </html>
+
 
