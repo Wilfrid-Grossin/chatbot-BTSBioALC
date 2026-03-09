@@ -119,30 +119,44 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
-<div id="visitorCounter">
-  👀<br>
+<div id="visitorTab">
+  👀
   <img src="https://visitor-badge.laobi.icu/badge?page_id=wilfrid-grossin.chatbot-BTSBioALC&left_text=&right_text=&color=red">
 </div>
 
 <style>
-#visitorCounter{
+#visitorTab{
   position:fixed;
-  left:6px;
-  bottom:50%;
-  transform:translateY(50%) rotate(-90deg);
-  transform-origin:left bottom;
-  background:rgba(0,0,0,0.6);
-  padding:4px 8px;
-  border-radius:6px;
+  left:0;
+  top:50%;
+  transform:translateY(-50%);
+  background:#c62828;
+  color:white;
+  padding:6px 8px;
+  border-radius:0 8px 8px 0;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  font-size:14px;
   z-index:9999;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  opacity:0.85;
+  transition:all 0.3s ease;
 }
-#visitorCounter img{
+
+#visitorTab:hover{
+  opacity:1;
+  padding-right:12px;
+}
+
+#visitorTab img{
   height:18px;
 }
 </style>
 
 </body>
 </html>
+
 
 
 
