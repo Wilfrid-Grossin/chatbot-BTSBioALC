@@ -124,7 +124,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
   <!-- Compteur à gauche -->
   <div>
-    👀 Visiteurs : <span id="compteur">2156</span>
+    👀 Visiteurs :
+    <img 
+      src="https://visitor-badge.laobi.icu/badge?page_id=wilfrid-grossin.chatbot-BTSBioALC&left_text=&right_text=&color=blue" 
+      alt="Compteur de visiteurs">
   </div>
 
   <!-- Texte à droite -->
@@ -134,20 +137,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </footer>
 
-<script>
-  // Compteur CountAPI
-  fetch("https://api.countapi.xyz/hit/wilfrid-grossin/chatbot-BTSBioALC")
-    .then(response => response.json())
-    .then(data => {
-      // On démarre à 2156 et ajoute la valeur réelle
-      document.getElementById("compteur").innerText = 2156 + data.value;
-    })
-    .catch(err => {
-      console.log("Erreur compteur :", err);
-    });
-</script>
-
 </body>
 </html>
+
 
 
