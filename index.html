@@ -121,8 +121,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <!-- Footer minimaliste avec compteur -->
 <footer style="background:#222; color:white; padding:8px; text-align:center; font-size:12px;">
-  <img src="https://visitor-badge.laobi.icu/badge?page_id=wilfrid-grossin.chatbot-BTSBioALC" alt="Compteur de visiteurs">
+
+  <span>👀 Visiteurs : </span><span id="compteur">2156</span>
+
 </footer>
+
+<script>
+fetch("https://api.countapi.xyz/hit/wilfrid-grossin/chatbot-BTSBioALC")
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById("compteur").innerText = data.value + 2156;
+  });
+</script>
 
 </body>
 </html>
+
