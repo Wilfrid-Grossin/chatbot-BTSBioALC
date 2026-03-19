@@ -6,337 +6,101 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BTS BioALC – Lycée Valin – Ressources pédagogiques</title>
+<title>BTS Bioanalyses et Contrôles (BioALC) – Lycée Valin La Rochelle</title>
 
-<meta name="description" content="Ressources pédagogiques du BTS Bioanalyses en Laboratoire de Contrôle du lycée Valin à La Rochelle.">
-
-<meta name="keywords" content="BTS BioALC, BTS bioanalyses laboratoire contrôle, Lycée Valin La Rochelle">
+<meta name="description" content="Découvrez le BTS Bioanalyses et Contrôles (BioALC) au lycée Valin à La Rochelle : programme, débouchés, ressources pédagogiques et conseils pour réussir.">
 
 <meta name="author" content="Wilfrid Grossin">
-
 <meta name="robots" content="index, follow">
 
 <link rel="canonical" href="https://wilfrid-grossin.github.io/BTSBioALC-Lycee-Valin/">
 
-<meta name="google-site-verification" content="GmjGARVAHgQ_L7agiH0gtsNtwFTHoZ6bYkPtfTR2J6Q">
-
-<meta property="og:title" content="BTS BioALC – Lycée Valin – Ressources pédagogiques">
-<meta property="og:description" content="Plateforme pédagogique du BTS Bioanalyses en Laboratoire de Contrôle du lycée Valin à La Rochelle.">
-<meta property="og:url" content="https://wilfrid-grossin.github.io/BTSBioALC-Lycee-Valin/">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://www.lycee-valin.fr/RJVALIN/wp-content/uploads/2026/03/image-3.png">
-
-<!-- SCHEMA EDUCATION -->
+<!-- SEO STRUCTURÉ -->
 
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
  "@type": "EducationalOrganization",
- "name": "BTS Bioanalyses en Laboratoire de Contrôle – Lycée Valin",
- "url": "https://wilfrid-grossin.github.io/BTSBioALC-Lycee-Valin/",
+ "name": "BTS Bioanalyses et Contrôles – Lycée Valin",
  "address": {
    "@type": "PostalAddress",
    "addressLocality": "La Rochelle",
    "addressCountry": "FR"
- },
- "educationalCredentialAwarded": "BTS Bioanalyses en Laboratoire de Contrôle"
-}
-</script>
-
-<!-- FAQ GOOGLE -->
-
-<script type="application/ld+json">
-{
- "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
-   {
-     "@type": "Question",
-     "name": "Qu'est-ce que le BTS BioALC ?",
-     "acceptedAnswer": {
-       "@type": "Answer",
-       "text": "Le BTS Bioanalyses en Laboratoire de Contrôle forme des techniciens spécialisés dans l'analyse biologique et le contrôle qualité en laboratoire."
-     }
-   },
-   {
-     "@type": "Question",
-     "name": "Où suivre le BTS BioALC à La Rochelle ?",
-     "acceptedAnswer": {
-       "@type": "Answer",
-       "text": "Le BTS Bioanalyses en Laboratoire de Contrôle est proposé au lycée Valin à La Rochelle."
-     }
-   },
-   {
-     "@type": "Question",
-     "name": "Quelles ressources sont disponibles sur cette plateforme ?",
-     "acceptedAnswer": {
-       "@type": "Answer",
-       "text": "La plateforme propose des ressources pédagogiques, des supports de travaux pratiques, des protocoles de laboratoire et un chatbot interactif."
-     }
-   }
- ]
+ }
 }
 </script>
 
 <style>
-
-html, body {
+body {
 margin:0;
-padding:0;
-height:100%;
 font-family:Arial, Helvetica, sans-serif;
 background:#f5f5f5;
-overflow-x:hidden;
 }
 
-.chat-container {
-width:100%;
-height:100%;
+.container {
+max-width:1000px;
+margin:auto;
+padding:20px;
+background:white;
+}
+
+h1, h2 {
+color:#c62828;
 }
 
 iframe {
 width:100%;
-height:100%;
+height:600px;
 border:none;
+margin-top:20px;
 }
-
-.popup-label {
-position: fixed;
-top: calc(50% - 180px);
-left:50%;
-transform: translateX(-50%);
-background: rgba(0,0,0,0.7);
-color:white;
-padding:10px 18px;
-border-radius:12px;
-font-weight:bold;
-z-index:10000;
-pointer-events:none;
-white-space: nowrap;
-}
-
-.popup {
-position: fixed;
-top:50%;
-left:50%;
-transform: translate(-50%, -50%);
-background:#c62828;
-color:white;
-border-radius:50%;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-text-align:center;
-z-index:9999;
-box-shadow:0 12px 30px rgba(0,0,0,0.4);
-animation: popupPulse 1.5s ease-in-out infinite;
-padding:15px;
-}
-
-.popup img {
-border-radius:50%;
-object-fit:cover;
-margin-bottom:15px;
-animation: imgZoom 1.5s ease-in-out infinite alternate;
-}
-
-.popup-text {
-font-weight:bold;
-line-height:1.2;
-}
-
-@keyframes popupPulse {
-0%,100%{ transform:translate(-50%,-50%) scale(1); opacity:1; }
-50%{ transform:translate(-50%,-50%) scale(1.05); opacity:0.95; }
-}
-
-@keyframes imgZoom {
-0% { transform: scale(1); }
-100% { transform: scale(1.08); }
-}
-
-.bubble, .icon {
-position: fixed;
-z-index:9998;
-pointer-events:none;
-opacity:0.8;
-user-select:none;
-}
-
-@media (max-width: 768px) {
-
-.popup { width:75vw; height:75vw; }
-.popup img { width:45%; height:45%; }
-.popup-text { font-size:18px; }
-
-.popup-label {
-font-size:18px;
-top: calc(50% - 200px);
-white-space: nowrap;
-padding:8px 15px;
-}
-
-}
-
-@media (min-width: 769px) {
-
-.popup { width:300px; height:300px; }
-.popup img { width:140px; height:140px; }
-.popup-text { font-size:16px; }
-
-.popup-label {
-font-size:16px;
-top: calc(50% - 180px);
-}
-
-}
-
-.seo-text {
-position:absolute;
-left:-9999px;
-}
-
 </style>
 
 </head>
 
 <body>
 
-<div class="seo-text">
+<div class="container">
 
-<h1>BTS BioALC – Lycée Valin – Ressources pédagogiques</h1>
+<h1>BTS Bioanalyses et Contrôles (BioALC) – Lycée Valin La Rochelle</h1>
 
 <p>
-Plateforme pédagogique du BTS Bioanalyses en Laboratoire de Contrôle du lycée Valin à La Rochelle.
-Ressources pédagogiques, supports de travaux pratiques et outils pour les étudiants.
+Le BTS Bioanalyses et Contrôles (BioALC) est une formation scientifique en deux ans permettant d'accéder aux métiers de laboratoire en biologie, biochimie et contrôle qualité.
+</p>
+
+<p>
+Ce site propose des ressources pédagogiques, des protocoles expérimentaux et un outil interactif pour accompagner les étudiants.
+</p>
+
+<p>
+👉 <a href="mieux-connaitre-bts-bioalc.html">Mieux connaître le BTS BioALC : programme, débouchés et conseils</a>
+</p>
+
+<h2>Programme et compétences</h2>
+<p>
+Les étudiants développent des compétences en biologie moléculaire, microbiologie, biochimie et techniques de laboratoire comme la PCR, la chromatographie et l'analyse spectrophotométrique.
+</p>
+
+<h2>Débouchés</h2>
+<p>
+Le BTS BioALC permet d'accéder à des postes de technicien de laboratoire, technicien contrôle qualité ou assistant ingénieur dans les secteurs pharmaceutique, cosmétique et agroalimentaire.
+</p>
+
+<h2>Outil interactif BTS BioALC</h2>
+<p>
+Utilisez le chatbot ci-dessous pour découvrir la formation, poser des questions et accéder aux ressources pédagogiques.
+</p>
+
+<iframe src="https://chatmd.forge.apps.education.fr//#https://codimd.apps.education.fr/s/0wMcu4T8P"></iframe>
+
+<hr>
+
+<p>
+<strong>À propos de l’auteur :</strong><br>
+Wilfrid Grossin – Enseignant en BTS Bioanalyses et Contrôles, spécialiste en biochimie et biologie moléculaire.
 </p>
 
 </div>
-
-<div class="chat-container">
-<iframe src="https://chatmd.forge.apps.education.fr//#https://codimd.apps.education.fr/s/0wMcu4T8P" id="chatbot"></iframe>
-</div>
-
-<div class="popup-label" id="popupLabel">
-Popup de 5 secondes
-</div>
-
-<div class="popup" id="popup">
-
-<img src="https://www.lycee-valin.fr/RJVALIN/wp-content/uploads/2026/03/image-3.png" alt="Chatbot BTS BioALC">
-
-<div class="popup-text">
-Nouvel outil pour découvrir le BTS Bioanalyses en Laboratoire de Contrôle
-</div>
-
-</div>
-
-<script>
-
-document.addEventListener("DOMContentLoaded", function() {
-
-if (window.matchMedia("(max-width: 768px)").matches) {
-document.getElementById("popup")?.remove();
-document.getElementById("popupLabel")?.remove();
-return;
-}
-
-const popup = document.getElementById("popup");
-const label = document.getElementById("popupLabel");
-
-// Gestion des cookies
-function setCookie(name, value, days) {
-const d = new Date();
-d.setTime(d.getTime() + (days*24*60*60*1000));
-document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/`;
-}
-
-function getCookie(name) {
-const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-return match ? match[2] : null;
-}
-
-const probability = 0.3;
-const minDays = 2;
-const lastSeen = getCookie("popup_last");
-const now = Date.now();
-
-let showPopup = false;
-
-if (!lastSeen) {
-showPopup = true;
-} else if (now - lastSeen > minDays*24*60*60*1000) {
-showPopup = Math.random() < probability;
-}
-
-if (showPopup) {
-
-popup.style.display = "flex";
-label.style.display = "block";
-
-setTimeout(() => {
-popup.remove();
-label.remove();
-}, 5000);
-
-const colors = ["#ff1744","#f50057","#ff9100","#00e676","#2979ff"];
-const icons = ["🧬","⚗️","🧪","🔬"];
-
-function createParticle() {
-
-const elem = document.createElement("div");
-
-if(Math.random()<0.3){
-elem.className="icon";
-elem.textContent=icons[Math.floor(Math.random()*icons.length)];
-elem.style.fontSize=`${14+Math.random()*16}px`;
-} else {
-elem.className="bubble";
-const size=8+Math.random()*12;
-elem.style.width=size+"px";
-elem.style.height=size+"px";
-elem.style.background=colors[Math.floor(Math.random()*colors.length)];
-elem.style.borderRadius="50%";
-}
-
-const angle=Math.random()*2*Math.PI;
-const radius=100+Math.random()*120;
-
-elem.style.left=`calc(50% + ${Math.cos(angle)*radius}px)`;
-elem.style.top=`calc(50% + ${Math.sin(angle)*radius}px)`;
-
-document.body.appendChild(elem);
-
-const duration=2500+Math.random()*1500;
-
-elem.animate([
-{ transform:"translateY(0) scale(1)", opacity:1 },
-{ transform:`translateY(-${20+Math.random()*50}px) scale(0.5)`, opacity:0 }
-], {duration:duration, iterations:1, easing:"ease-out"});
-
-setTimeout(()=> elem.remove(), duration);
-
-}
-
-for(let i=0;i<15;i++) createParticle();
-
-let interval = setInterval(createParticle, 300);
-
-setTimeout(()=> clearInterval(interval), 5000);
-
-setCookie("popup_last", now, 30);
-
-} else {
-
-popup.style.display = "none";
-label.style.display = "none";
-
-}
-
-});
-
-</script>
 
 </body>
 </html>
